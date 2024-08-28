@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-pt=pkw$fi9+w7wig8tax-(%3&r=j-)ox571doxdvn$9vxy&nyp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','agrisky.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','agrisky.onrender.com','www.agrisky.ma']
 
 
 # Application definition
