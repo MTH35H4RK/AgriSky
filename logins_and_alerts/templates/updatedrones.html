@@ -1,0 +1,19 @@
+{% extends "loginbase.html "%}
+
+{% block style %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Custom CSS to make input boxes longer horizontally */
+    .form-control {
+      width: 1000px; /* Adjust the width as per your preference */
+    }
+  </style>
+{% endblock %}
+
+{% block loginbox %}
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Update Drone</button>
+</form>
+{% endblock %}

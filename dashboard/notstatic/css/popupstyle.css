@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+.popup {
+ display: none;
+ position: fixed;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ background-color: white;
+ padding: 20px;
+ box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+  
+.popup-content {
+ text-align: center;
+}
+  
+.close {
+ position: absolute;
+ top: 5px;
+ right: 10px;
+ cursor: pointer;
+}

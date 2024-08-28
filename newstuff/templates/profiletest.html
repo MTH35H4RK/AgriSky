@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+
+    <style>
+        body{
+            background-color: #b3e5fc;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 85vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff18;
+        }
+        .card{
+            width: 825px;
+            height: 400px;
+            border: none;
+            border-radius: 10px;
+            align-self: center;
+            background-color: #ffffff31;
+            display: flex;
+	        justify-content: center;
+            z-index: 2;
+        }
+
+        .card .p-3 {
+            background-color: #ffffff2d;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Ensure the canvas is behind other elements */
+        }
+
+        .stats{
+
+            background: #f2f5f8 !important;
+
+            color: #000 !important;
+        }
+        .articles{
+        font-size:10px;
+        color: #a1aab9;
+        }
+        .number1{
+        font-weight:500;
+        }
+        .followers{
+            font-size:10px;
+        color: #a1aab9;
+
+        }
+        .number2{
+        font-weight:500;
+        }
+        .rating{
+            font-size:10px;
+        color: #a1aab9;
+        }
+        .number3{
+        font-weight:500;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    
+</head>
+
+<body>
+    <canvas id="bgCanvas" width="1920" height="1080"></canvas>
+    <div class="container mt-5 d-flex justify-content-center">
+
+        <div class="card p-3">
+
+            <div class="d-flex align-items-center">
+
+                <div class="image">
+            <img src="{% static 'images/avatar/' %}{{target.username}}.png" class="rounded" width="155" >
+            </div>
+
+            <div class="ml-3 w-100">
+                
+               <h4 class="mb-0 mt-0">{{target.displayname}}</h4>
+               <span>{{target.username}}</br></span>
+               <span>{{target.title}}</span>
+
+               <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+
+                <div class="d-flex flex-column">
+
+                    <span class="articles">Articles</span>
+                    <span class="number1">38</span>
+                    
+                </div>
+
+                <div class="d-flex flex-column">
+
+                    <span class="followers">Followers</span>
+                    <span class="number2">980</span>
+                    
+                </div>
+
+
+                <div class="d-flex flex-column">
+
+                    <span class="rating">Rating</span>
+                    <span class="number3">8.9</span>
+                    
+                </div>
+                   
+               </div>
+
+
+               <div class="button mt-2 d-flex flex-row align-items-center">
+
+                <button class="btn btn-sm btn-outline-primary w-100">Chat</button>
+                <button class="btn btn-sm btn-primary w-100 ml-2">Follow</button>
+
+                   
+               </div>
+
+
+            </div>
+
+                
+            </div>
+            
+        </div>
+         
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        const vertexShaderSource = `
+            attribute vec4 a_position;
+            void main() {
+                gl_Position = a_position;
+            }
+        `;
+
+        const fragmentShaderSource = `
+            precision mediump float;
+
+            // Uniforms
+            uniform float u_time;
+            uniform vec2 u_resolution;
+
+            // Constants
+            #define STARDISTANCE 100.0
+            #define STARBRIGHTNESS 1.5
+            #define STARDENSITY 0.05
+
+            // Function to generate pseudo-random number
+            float hash13(vec3 p3)
+            {
+                p3  = fract(p3 * vec3(.1031, .11369, .13787));
+                p3 += dot(p3, p3.yzx + 19.19);
+                return fract((p3.x + p3.y) * p3.z);
+            }
+
+            // Function to generate stars
+            float stars(vec3 ray)
+            {
+                vec3 p = ray * STARDISTANCE;
+                float h = hash13(p);
+                float flicker = cos(u_time * 2.0 + hash13(abs(p) * 0.01) * 13.0) * 0.5 + 0.5;
+                float brightness = smoothstep(1.0 - STARDENSITY, 1.0, hash13(floor(p)));
+                brightness *= 2.0; // Increase brightness even more
+                return smoothstep(STARBRIGHTNESS, STARBRIGHTNESS - 0.01, length(fract(p) - 0.5)) * brightness * flicker;
+            }
+
+            // Function to simulate camera movement
+            vec3 camera(vec2 fragCoord)
+            {
+                vec3 ray = normalize(vec3(fragCoord.xy - u_resolution * 0.5, u_resolution.x));
+                vec2 angle = vec2(3.0 + u_time * -0.001, 10.0 + u_time * 0.0250);
+                vec4 cs = vec4(cos(angle.x), sin(-angle.x), cos(angle.y), sin(angle.y));
+                ray.yz *= mat2(cs.xy, -cs.y, cs.x);
+                ray.xz *= mat2(cs.zw, -cs.w, cs.z);
+                // Zoom out effect
+                float zoomOutFactor = 1.0 + u_time * 0.001; // Adjust the zoom-out speed here
+                ray *= zoomOutFactor;
+                return ray;
+            }
+
+            // Main function to render the scene
+            void mainImage(out vec4 fragColor, in vec2 fragCoord)
+            {
+                vec3 ray = camera(fragCoord);
+                float s = stars(ray);
+                fragColor = vec4(0.0, 0.0, 0.5 * s + 0.2, 1.0);
+            }
+
+            void main() {
+                mainImage(gl_FragColor, gl_FragCoord.xy);
+            }
+        `;
+
+        // Get WebGL context
+        const canvas = document.getElementById('bgCanvas');
+        const gl = canvas.getContext('webgl');
+
+        // Compile shader
+        function compileShader(gl, source, type) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+                gl.deleteShader(shader);
+                return null;
+            }
+            return shader;
+        }
+
+        // Create program
+        const vertexShader = compileShader(gl, vertexShaderSource, gl.VERTEX_SHADER);
+        const fragmentShader = compileShader(gl, fragmentShaderSource, gl.FRAGMENT_SHADER);
+        const program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+        gl.useProgram(program);
+
+        // Create buffer and attributes
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        const positionLocation = gl.getAttribLocation(program, 'a_position');
+        gl.enableVertexAttribArray(positionLocation);
+        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+        // Set uniform values
+        const timeLocation = gl.getUniformLocation(program, 'u_time');
+        const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
+        gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+
+        // Render
+        function render() {
+            gl.uniform1f(timeLocation, performance.now() / 1000); // Convert time to seconds
+            gl.viewport(0, 0, canvas.width, canvas.height); // Set viewport to match canvas size
+            gl.clearColor(0, 0, 0, 0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+            requestAnimationFrame(render);
+        }
+        render();
+    </script>
+</body>

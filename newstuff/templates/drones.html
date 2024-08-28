@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block style %}
+        <link rel="stylesheet" href="{% static 'css/jquery.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/swiper.css' %}" />
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" href="{% static 'css/bpl.css' %}" />
+
+        <style>
+            .image-maps-container {
+                display: flex;
+            }
+        
+            .connected {
+                color: green;
+            }
+        
+            .disconnected {
+                color: red;
+            }
+        
+            .maps-container {
+                flex-grow: 1;
+                padding-left: 10px;
+                /* Adjust spacing between image and maps */
+            }
+
+            image-container {
+                width: 352px;
+                height: 288px;
+            }
+            .custom-modal-size {
+                width: 750px;
+                max-width: 750px;
+            }
+
+            .custom-modal-dialog {
+                width: 750px;
+                height: 500px;
+            }
+
+            .btn-download.custom{
+                transform: translate(335%, 0%);
+                display: fixed;
+            }
+        </style>
+{% endblock %}
+
+{% block active %}
+    <li>
+        <a href="{%url 'homeapp:dashboard' %}">
+            <i class='bx bxs-dashboard bx-rotate-90' style='color:rgb(0, 0, 0), 255, 0;'></i>
+            <span class="text">Dashboard</span>
+        </a>
+    </li>
+    <li class="active">
+        <a href="{%url 'homeapp:drones' %}">
+            <i class='bx bx-command bx-rotate-90' style='color:rgb(0, 0, 0)'></i>
+            <span class="text">Drones</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:reports' %}">
+                <i class='bx bxs-report'></i>
+            <span class="text">Reports</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:alerts' %}">
+            <i class='bx bx-bell ' style='color:rgb(0, 0, 0)'></i>
+            <span class="text">Alerts</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:team' %}">
+            <i class='bx bxs-group' ></i>
+            <span class="text">Team</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block popup %}
+{% for drone in drone_list %}
+    {% if drone.active %}
+        <body class="page__joblist">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-modal-size">
+                    <div class="modal-content custom-modal-dialog">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{drone.dronename}} - Stream</h5>
+                            <button type="button" class="btn-close modal-close" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Container for image and maps -->
+                            <div class="image-maps-container">
+                                <!-- Image with border and placeholder -->
+                                <div class="image-container position-relative">
+                                    <div class="placeholder bg-light d-flex align-items-center justify-content-center" style="width: 352px; height: 288px;">
+                                        <span class="text-muted">Loading...</span>
+                                    </div>
+                                    <img src="{{drone.url}}" width="352" height="288" alt="Image" class="position-absolute top-0 start-0 w-100 h-100" onload="hidePlaceholder(this)">
+                                </div>
+                                <!-- Iframe -->
+                                <div class="maps-container">
+                                    <div class="image-container">
+                                        <img src="{% static 'images/map.png' %}" width="352" height="288" alt="Image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- You can add additional buttons or content here if needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}
+ 
+{% block titleshit %}
+    Drones
+{% endblock %}
+
+{% block titleshit2 %}
+   Drones
+{% endblock %}
+
+{% block addbutton %}
+    {% if user.is_staff %}
+        <a href="{%url 'loginsapp:adddrone' %}" type='link' class="btn-download custom fixed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+            </svg>
+            <span class="text">Add Drone</span>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+{% for drone in drone_list %}
+    {% if drone.active %}
+        <div class="container-xxl">
+            <div class="d-flex flex-column flex-xl-row align-items-xl-center gap-20">
+                
+                </div>
+            </div>
+
+            <div class="mt-60 gap-34">
+                <div class="job-card-harizontal">
+                    <button class="btn btn-rounded btn-white position-absolute d-xl-none top-100 start-50 p-10 translate-middle" type="button" data-bs-toggle="collapse" data-bs-target="#jobInfoCardCollapse" aria-expanded="false" aria-controls="jobInfoCardCollapse">
+                        <img src="{% static 'images/chevron-down.svg' %}" class="svg-inject text-primary is-16" alt="" />
+                    </button>
+                    <div class="job-info">
+                        <div class="job-image">
+                            <img src="{% static 'images/drone.svg' %}" alt="" />
+                        </div>
+                        <div class="job-info-inner">
+                            <h5 class="job-title">
+                                <a href="">{{drone.dronename}}</a>
+                            </h5>
+                            <div>
+                                <t class="connected">Connected</t>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="job-info-card-collapse collapse" id="jobInfoCardCollapse">
+                        <div class="job-info-card">
+                            <div class="info-card">
+                                <div class="info-card-icon bg-ufo-green-100 rounded-pill">
+                                    <img src="{% static 'images/sssvg.svg' %}" class="svg-inject svg-icon" alt="" />
+                                </div>
+                                <div class="info-card-content">
+                                    <h6 class="info-card-title">{{drone.battiere}} %</h6>
+                                    <div class="info-card-desc">Battery</div>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-icon bg-rajah rounded-pill">
+                                    <img src="{% static 'images/mark.svg'%}" class="svg-inject svg-icon" alt="" />
+                                </div>
+                                <div class="info-card-content">
+                                    <h6 class="info-card-title">{{drone.location}}</h6>
+                                    <div class="info-card-desc">Location</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="job-action">
+                        
+                        {% if user.is_staff %}
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Update Drone">   
+                                <a class="btn btn-apply .OPSS flex-fill flex-md-nofill fw-semiBold py-12 px-43 rounded-pill" href="{%url 'loginsapp:updatedrone' dronetarget=drone.dronename%}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                                        <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+                                        <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+                                    </svg>
+                                </a>
+                            </span>
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Delete Drone">   
+                                <a class="btn btn-apply .OPSS flex-fill flex-md-nofill fw-semiBold py-12 px-43 rounded-pill" href="{%url 'loginsapp:deletedrone' dronetarget=drone.dronename%}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                    </svg>
+                                </a>
+                            </span>
+                        {% endif %}
+                        <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Watch Live Feed">   
+                            <a class="btn btn-apply OPSS flex-fill flex-md-nofill fw-semiBold py-12 px-43 rounded-pill" href="/jobdetail.html" data-drone-name="{{drone.dronename}}" data-drone-url="{{drone.url}}" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-display" viewBox="0 0 16 16">
+                                <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4q0 1 .25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75Q6 13 6 12H2s-2 0-2-2zm1.398-.855a.76.76 0 0 0-.254.302A1.5 1.5 0 0 0 1 4.01V10c0 .325.078.502.145.602q.105.156.302.254a1.5 1.5 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.76.76 0 0 0 .254-.302 1.5 1.5 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.76.76 0 0 0-.302-.254A1.5 1.5 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145"/>
+                            </svg></a>
+                        </span>
+                    </div>
+                <!-- /.job-card-grid-harizontal-component -->
+
+            </div>
+    {% else %}
+    <div class="d-grid mt-60 gap-34">
+        <div class="job-card-harizontal">
+            <button class="btn btn-rounded btn-white position-absolute d-xl-none top-100 start-50 p-10 translate-middle" type="button" data-bs-toggle="collapse" data-bs-target="#jobInfoCardCollapse" aria-expanded="false" aria-controls="jobInfoCardCollapse">
+                <img src="{% static 'images/chevron-down.svg' %}" class="svg-inject text-primary is-16" alt="" />
+            </button>
+            <div class="job-info">
+                <div class="job-image">
+                    <img src="{% static 'images/drone.svg' %}" alt="" />
+                </div>
+                <div class="job-info-inner">
+                    <h5 class="job-title">
+                        <a href="">{{drone.dronename}}</a>
+                    </h5>
+                    <div class="job-author">
+                        <t class="disconnected">Disconnected</t>
+                    </div>
+                </div>
+            </div>
+            <div class="job-info-card-collapse collapse" id="jobInfoCardCollapse">
+                <div class="job-info-card">
+                    <div class="info-card">
+                        <div class="info-card-icon bg-ufo-green-100 rounded-pill">
+                            <img src="{% static 'images/sssvg.svg' %}" class="svg-inject svg-icon" alt="" />
+                        </div>
+                        <div class="info-card-content">
+                            <h6 class="info-card-title">{{drone.battiere}}</h6>
+                            <div class="info-card-desc">Battery</div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon bg-rajah rounded-pill">
+                            <img src="{% static 'images/mark.svg'%}" class="svg-inject svg-icon" alt="" />
+                        </div>
+                        <div class="info-card-content">
+                            <h6 class="info-card-title">{{drone.location}}</h6>
+                            <div class="info-card-desc">Location</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="job-action">
+                {% if user.is_staff %}
+                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Update Drone">   
+                        <a class="btn btn-apply .OPSS flex-fill flex-md-nofill fw-semiBold py-12 px-43 rounded-pill" href="{%url 'loginsapp:updatedrone' dronetarget=drone.dronename%}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                                <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+                                <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+                            </svg>
+                        </a>
+                    </span>
+                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Delete Drone">   
+                        <a class="btn btn-apply .OPSS flex-fill flex-md-nofill fw-semiBold py-12 px-43 rounded-pill" href="{%url 'loginsapp:deletedrone' dronetarget=drone.dronename%}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                            </svg>
+                        </a>
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+        <!-- /.job-card-grid-harizontal-component -->
+
+    </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}
+
+{% block sidebar %}
+    <li>
+        <a id="theme-toggle" href="">
+            <i class='bx bxs-cog' ></i>
+            <span class="text">Dark Theme</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block js %}
+        <script>
+            function hidePlaceholder(imgElement) {
+                imgElement.previousElementSibling.style.display = 'none';
+            }
+        </script>
+
+        <script>
+            const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+            const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+            // Select the Watch Now buttons
+            var watchNowButtons = document.querySelectorAll('.OPSS');
+
+            // Attach click event listener to each button
+            watchNowButtons.forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default action of the button
+
+                // Get data attributes from the clicked button
+                var droneName = button.getAttribute('data-drone-name');
+                var droneUrl = button.getAttribute('data-drone-url');
+                var mapImageUrl = button.getAttribute('data-map-image-url');
+
+                // Update the modal's title
+                document.querySelector('#exampleModal .modal-title').textContent = droneName + ' - Stream';
+
+                // Update the modal's image URL
+                var droneImage = document.querySelector('#exampleModal .image-container img');
+                droneImage.setAttribute('src', droneUrl);
+
+                // Update the map image URL
+                /*var mapImage = document.querySelector('#exampleModal .maps-container img');
+                mapImage.setAttribute('src', mapImageUrl);*/
+
+                // Show the modal
+                $('#exampleModal').modal('show');
+                });
+            });
+
+            // Select the close button inside the modal
+            var closeButton = document.querySelector('.modal-close');
+
+            // Attach click event listener to the close button
+            closeButton.addEventListener('click', function() {
+                // Hide the modal when close button is clicked
+                $('#exampleModal').modal('hide');
+            });
+            });
+        </script>
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+
+
+		<!-- Vendors -->
+		<script src="{% static 'js/jquery1.js' %}"></script>
+		<script src="{% static 'js/jquery2.js' %}"></script>
+		<script src="{% static 'js/swiper.js' %}"></script>
+		<script src="{% static 'js/svg.js' %}"></script>
+		<script src="{% static 'js/fslightbox.js' %}"></script>
+
+		<!-- Template Function -->
+		<script src="{% static 'js/theme.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block style %}
+    <style>
+        .frame-1,
+        .frame-1 * {
+        box-sizing: border-box;
+        }
+        .frame-1 {
+        background: #ffffff00;
+        height: 1080px;
+        position: relative;
+        overflow: hidden;
+        }
+        .rectangle-1 {
+        background: linear-gradient(
+            180deg,
+            rgba(24, 24, 29, 0) 100%,
+            rgba(187, 170, 204, 0) 100%
+        );
+        width: 1920px;
+        height: 1080px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        }
+        .d-1 {
+        position: absolute;
+        inset: 0;
+        }
+        .rectangle-2 {
+        background: #002fcb;
+        border-radius: 29px;
+        width: 191.2px;
+        height: 151.61px;
+        position: absolute;
+        left: 395px;
+        top: 264px;
+        box-shadow: 6px 4px 7.7px 2px rgba(113, 89, 251, 0.25);
+        }
+        .icon-drone {
+        width: 64.26px;
+        height: 64.93px;
+        position: absolute;
+        left: 458.82px;
+        top: 308.64px;
+        overflow: visible;
+        }
+        .rectangle-22 {
+        background: #3d00cb;
+        border-radius: 29px;
+        width: 191.2px;
+        height: 151.61px;
+        position: absolute;
+        left: 395.37px;
+        top: 477px;
+        box-shadow: 6px 4px 7.7px 2px rgba(151, 89, 251, 0.25);
+        }
+        .icon-drone2 {
+        width: 64.26px;
+        height: 64.93px;
+        position: absolute;
+        left: 459.19px;
+        top: 521.64px;
+        overflow: visible;
+        }
+        .rectangle-23 {
+        background: #3600cb;
+        border-radius: 29px;
+        width: 191.2px;
+        height: 151.61px;
+        position: absolute;
+        left: 395.37px;
+        top: 692px;
+        box-shadow: 6px 4px 7.7px 2px rgba(138, 89, 251, 0.25);
+        }
+        .icon-drone3 {
+        width: 64.26px;
+        height: 64.93px;
+        position: absolute;
+        left: 459.19px;
+        top: 736.64px;
+        overflow: visible;
+        }
+        .rectangle-24 {
+        background: #5800cb;
+        border-radius: 29px;
+        width: 191.2px;
+        height: 151.61px;
+        position: absolute;
+        left: 395.37px;
+        top: 907px;
+        box-shadow: 0px 4px 7.7px 2px rgba(159, 89, 251, 0.25);
+        }
+        .icon-drone4 {
+        width: 64.26px;
+        height: 64.93px;
+        position: absolute;
+        left: 459.19px;
+        top: 951.64px;
+        overflow: visible;
+        }
+        .rectangle-16 {
+        background: linear-gradient(
+            90deg,
+            rgba(0, 26, 255, 0.44) 0%,
+            rgba(4, 5, 75, 0.44) 100%
+        );
+        width: 893px;
+        height: 108px;
+        position: absolute;
+        left: 587.13px;
+        top: 287px;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        }
+        .rectangle-17 {
+        background: linear-gradient(
+            90deg,
+            rgba(76, 0, 255, 0.44) 0%,
+            rgba(29, 4, 75, 0.44) 100%
+        );
+        width: 893px;
+        height: 108px;
+        position: absolute;
+        left: 587px;
+        top: 499px;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        }
+        .rectangle-18 {
+        background: linear-gradient(
+            90deg,
+            rgba(111, 0, 255, 0.44) 0%,
+            rgba(29, 4, 75, 0.44) 100%
+        );
+        width: 893px;
+        height: 108px;
+        position: absolute;
+        left: 587px;
+        top: 715px;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        }
+        .rectangle-19 {
+        background: linear-gradient(
+            90deg,
+            rgba(119, 0, 255, 0.44) 0%,
+            rgba(35, 4, 75, 0.44) 100%
+        );
+        width: 893px;
+        height: 108px;
+        position: absolute;
+        left: 587px;
+        top: 929px;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        }
+        .drone-1 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "JerseyM54-Regular", sans-serif;
+        font-size: 48px;
+        font-weight: 400;
+        position: absolute;
+        left: 592px;
+        top: 218px;
+        width: 200px;
+        height: 46px;
+        }
+        .drone-2 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "JerseyM54-Regular", sans-serif;
+        font-size: 48px;
+        font-weight: 400;
+        position: absolute;
+        left: 592px;
+        top: 431px;
+        width: 200px;
+        height: 46px;
+        }
+        .drone-3 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "JerseyM54-Regular", sans-serif;
+        font-size: 48px;
+        font-weight: 400;
+        position: absolute;
+        left: 592px;
+        top: 646px;
+        width: 200px;
+        height: 46px;
+        }
+        .drone-4 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "JerseyM54-Regular", sans-serif;
+        font-size: 48px;
+        font-weight: 400;
+        position: absolute;
+        left: 592px;
+        top: 861px;
+        width: 200px;
+        height: 46px;
+        }
+        .play-button {
+        position: absolute;
+        inset: 0;
+        }
+        .rectangle-20 {
+        background: #0a0000;
+        width: 123px;
+        height: 54px;
+        position: absolute;
+        left: 1338px;
+        top: 314px;
+        }
+        .play {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 48px;
+        font-weight: 400;
+        position: absolute;
+        left: 1343px;
+        top: 317px;
+        }
+        .connected {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 733px;
+        top: 351px;
+        width: 176px;
+        height: 34px;
+        }
+        .disconnected {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 729px;
+        top: 558px;
+        width: 231px;
+        height: 34px;
+        }
+        .disconnected2 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 729px;
+        top: 777px;
+        width: 231px;
+        height: 34px;
+        }
+        .disconnected3 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 729px;
+        top: 996px;
+        width: 231px;
+        height: 34px;
+        }
+        .state {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 618px;
+        top: 351px;
+        width: 115px;
+        height: 34px;
+        }
+        .state2 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 614px;
+        top: 558px;
+        width: 115px;
+        height: 34px;
+        }
+        .state3 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 614px;
+        top: 777px;
+        width: 115px;
+        height: 34px;
+        }
+        .state4 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 614px;
+        top: 996px;
+        width: 115px;
+        height: 34px;
+        }
+        .charging-empty-battery {
+        width: 48px;
+        height: 48px;
+        position: absolute;
+        left: 618px;
+        top: 293px;
+        object-fit: cover;
+        }
+        ._100 {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 675px;
+        top: 301px;
+        }
+        .location {
+        color: #ffffff;
+        text-align: left;
+        font-family: "SquareFont-Regular", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        position: absolute;
+        left: 1020px;
+        top: 319px;
+        }
+        .location2 {
+        width: 70px;
+        height: 70px;
+        position: absolute;
+        left: 941px;
+        top: 303px;
+        object-fit: cover;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+  <div class="frame-1">
+    <div class="rectangle-1"></div>
+    <div class="rectangle-2"></div>
+    <img class="icon-drone" src="drone.png" />
+    <div class="rectangle-22"></div>
+    <img class="icon-drone2" src="drone.png" />
+    <div class="rectangle-23"></div>
+    <img class="icon-drone3" src="drone.png" />
+    <div class="rectangle-24"></div>
+    <img class="icon-drone4" src="drone.png" />
+    <div class="rectangle-16"></div>
+    <div class="rectangle-17"></div>
+    <div class="rectangle-18"></div>
+    <div class="rectangle-19"></div>
+    <div class="drone-1">Drone 1</div>
+    <div class="drone-2">Drone 2</div>
+    <div class="drone-3">Drone 3</div>
+    <div class="drone-4">Drone 4</div>
+    <div class="rectangle-20"></div>
+    <div class="play">play</div>
+    <div class="connected">connected</div>
+    <div class="disconnected">disconnected</div>
+    <div class="disconnected2">disconnected</div>
+    <div class="disconnected3">disconnected</div>
+    <div class="state">State :</div>
+    <div class="state2">State :</div>
+    <div class="state3">State :</div>
+    <div class="state4">State :</div>
+    <img class="charging-empty-battery" src="charging-empty-battery0.png" />
+    <div class="_100">: 100%</div>
+    <div class="location">: location</div>
+    <img class="location2" src="location1.png" />
+  </div>
+{% endblock %}
+
+{% block others %}
+{% endblock %}

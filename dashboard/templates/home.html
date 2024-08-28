@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block style %}
+    <style>
+        
+        .container .right-section .music-player{
+            color: #fff;
+            background-color: #202026;
+            border-radius: 6px;
+            height: 88%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container .right-section .music-player .top-section{
+            padding: 20px;
+            height: 86%;
+        }
+
+        .container .right-section .music-player .header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .container .right-section .music-player .song-info{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            text-align: center;
+        }
+
+        .container .right-section .music-player .song-info img{
+            width: 280px;
+            height: 220px;
+        }
+
+        .container .right-section .music-player .description h3{
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .container .right-section .music-player .description h5{
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .container .right-section .music-player .description p{
+            color: #919191;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .container .right-section .music-player .song-info .progress{
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .container .right-section .music-player .song-info .progress p{
+            font-size: 11px;
+        }
+
+        .container .right-section .music-player .song-info .progress .active-line{
+            position: relative;
+            width: 120px;
+            height: 2px;
+            background-color: #fff;
+            margin-left: 30px;
+        }
+
+        .container .right-section .music-player .song-info .progress .deactive-line{
+            width: 80px;
+            height: 2px;
+            background-color: #919191;
+            margin-right: 30px;
+        }
+
+        .container .right-section .music-player .song-info .progress .active-line::before{
+            content: "";
+            background-color: #25252d;
+            height: 10px;
+            width: 10px;
+            border: 2px solid #fff;
+            position: absolute;
+            top: -6px;
+            left: 120px;
+            border-radius: 50%;
+        }
+
+        .container .right-section .music-player .player-actions{
+            background-color: #5773ff;
+            height: 26%;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .container .right-section .music-player .player-actions .buttons{
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-top: 24px;
+        }
+
+        .container .right-section .music-player .player-actions .buttons i{
+            font-size: 20px;
+        }
+
+        .container .right-section .music-player .player-actions .buttons .play-button{
+            padding: 16px;
+            background-color: #fff;
+            color: #5773ff;
+            border-radius: 18px;
+        }
+
+        .container .right-section .music-player .player-actions .lyrics{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            bottom: 8px;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+
+<div class="trending">
+    <div class="left">
+        <h5>Our Product</h5>
+        <div class="info">
+            <h2>Medical Drone</h2>
+            <h4>Advancing Healthcare Through Drones</h4>
+            <br>
+            <h5>nnovative Solutions for Healthcare</h5>
+            <div class="buttons">
+                <button>Learn More</button>
+                <i class='bx bxs-heart'></i>
+            </div>
+        </div>
+    </div>
+    <div class="video-card">
+        <video id="myVideo" src="{% static 'images/vecteezy_white-drone-spins-360-degrees-in-the-air-a-breathtaking_22609083.mp4'%}"
+            autoplay loop muted></video>
+        <div class="card-content">
+            <h2>Medical Drone</h2>
+            <p>Rion Clarke</p>
+            <p>63 Million Plays</p>
+            <button>Learn More</button>
+            <i class='bx bxs-heart'></i>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block others %}
+
+{% endblock %}
+
+<div class="music-player">
+    <div class="top-section">
+        <div class="header">
+            <h5>Medical Drone Project Overview</h5>
+    <i class='bx bx-info-circle'></i>
+        </div>
+        <div class="song-info">
+            <img src="{% static 'images/[Downloader.la]-661f1a864fc3b.jpg' %}">
+            <div class="description">
+                <h3>Revolutionizing Healthcare Delivery with Medical Drones
+            </h3>
+                <h5>By MediDrone</h5>
+                <p>Discover how our medical drone project is transforming healthcare delivery and emergency response in communities worldwide.</p>
+            </div>
+        <style>
+            .social-icons a i {
+                font-size: 24px;
+                /* Adjust the font size as needed */
+            }
+        </style>
+        
+        <div class="project-actions">
+            <div class="buttons">
+                <button>Learn More</button>
+            </div>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/robotique.fsr/"><i class='bx bxl-instagram'></i></a>
+                <a href="https://www.linkedin.com/company/robotics-club-fsr/"><i class='bx bxl-linkedin'></i></a>
+            </div>
+            <div class="explore">
+                <a href="#features-section"><i class='bx bx-chevron-down'></i></a>
+                <h5>EXPLORE</h5>
+            </div>
+        </div>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Medicale Drone</title>
+    {% block style %}
+    {% endblock %}
+</head>
+
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <button class="menu-btn" id="menu-close">
+                    <i class='bx bx-log-out-circle'></i>
+                </button>
+                <i class='bx bx-pulse'></i>
+                
+                <a href="{% url 'dashboard' %}">MediDrone</a>
+            </div>
+
+            <div class="menu">
+                <h5>Menu</h5>
+                <ul>
+                    <li>
+            <i class='bx bxs-dashboard bx-rotate-90' style='color:rgb(255, 255, 255, 255, 0)'></i>
+                        <a href="{% url 'dashboard' %}">Dashboard</a>
+                    </li>
+                    <li>
+                        
+            <i class='bx bx-command bx-rotate-90' style='color:rgb(255, 255, 255)'></i>
+                        <a href="{% url 'drones' %}">Drones</a>
+                    </li>
+                    <li>
+                <i class='bx bx-bell ' style='color:rgb(255, 255, 255)'></i>
+                        <a href="{% url 'alerts' %}">Alerts</a>
+                    </li>
+                    <li>
+                        <i class='bx bxs-report' ></i>
+                        <a href="{% url 'reports' %}">Reports</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="playing">
+                <div class="top">
+                    <img src="{% static 'images/1.png' %}">
+                    <h4>Terms<br>of Service</h4>
+                </div>
+                <div class="bottom">
+                    <i class='bx bx-podcast'></i>
+                    <p>Ensure transparency and compliance by providing links to your platform's privacy policy and terms of service.</p>
+                </div>
+            </div>
+
+
+        </aside>
+
+        <main>
+            <header>
+                <div class="nav-links">
+                    <button class="menu-btn" id="menu-open">
+                        <i class='bx bx-menu'></i>
+                    </button>
+                    <a href="#">SkyMedic</a>
+                    <a href="#">AeroHealth</a>
+                    <a href="#" style="margin-right: 10px;">DroneCare</a>
+                </div>
+                <div class="search">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Type here to search">
+                </div>
+            
+            </header>
+
+            {% block main %}
+            {% endblock %}
+        </main>
+        <div class="right-section">
+
+            <div class="profile">
+                <i class='bx bxs-bell'></i>
+                <i class='bx bxs-cog'></i>
+                <div class="user">
+                    <div class="left">
+                   <i class='bx bxs-direction-left'></i>
+                    </div>
+                    <div class="right">
+                        <h5>Sign Out</h5>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+
+    <script src="{% static 'js/script.js'%}"></script>
+</body>
+
+</html>

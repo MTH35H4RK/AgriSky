@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block style %}
+    <style>
+        .custom-img-size {
+            max-width: 100px; /* Adjust as needed */
+            max-height: 100px; /* Adjust as needed */
+        }
+    </style>
+{% endblock %}
+
+{% block active %}
+    <li>
+        <a href="{%url 'homeapp:dashboard' %}">
+            <i class='bx bxs-dashboard bx-rotate-90' style='color:rgb(0, 0, 0), 255, 0;'></i>
+            <span class="text">Dashboard</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:drones' %}">
+            <i class='bx bx-command bx-rotate-90' style='color:rgb(0, 0, 0)'></i>
+            <span class="text">Drones</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:reports' %}">
+                <i class='bx bxs-report'></i>
+            <span class="text">Reports</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:alerts' %}">
+            <i class='bx bx-bell ' style='color:rgb(0, 0, 0)'></i>
+            <span class="text">Alerts</span>
+        </a>
+    </li>
+    <li class="active">
+        <a href="{%url 'homeapp:team' %}">
+            <i class='bx bxs-group' ></i>
+            <span class="text">Team</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block titleshit %}
+    Team
+{% endblock %}
+
+{% block titleshit2 %}
+   Team
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        {% for user in user_list %}
+            {% if user.is_in_team %}
+                <div class="col-md-3 mb-4">
+                    <div class="card p-3 rounded">
+                        <div class="media">
+                            <img src="{% static 'images/avatar/' %}{{ user.username }}.png" class="mr-3 rounded custom-img-size">
+                            <div class="media-body">
+                                <h5 class="mt-2 mb-0">{{user.first_name}} {{user.last_name}} </h5>
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <small class="text-muted">{{ user.title }}</small>
+                                    <a class="profile" href="{% url 'homeapp:profile' username=user.username %}">
+                                        <button type="link" class="btn btn-outline-primary">Go To Profile</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+    <li>
+        <a id="theme-toggle" href="">
+            <i class='bx bxs-cog' ></i>
+            <span class="text">Dark Theme</span>
+        </a>
+    </li>
+{% endblock %}

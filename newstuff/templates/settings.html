@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block active %}
+    <li>
+        <a href="{%url 'homeapp:dashboard' %}">
+            <i class='bx bxs-dashboard bx-rotate-90' style='color:rgb(0, 0, 0), 255, 0;'></i>
+            <span class="text">Dashboard</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:drones' %}">
+            <i class='bx bx-command bx-rotate-90' style='color:rgb(0, 0, 0)'></i>
+            <span class="text">Drones</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:reports' %}">
+                <i class='bx bxs-report'></i>
+            <span class="text">Reports</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:alerts' %}">
+            <i class='bx bx-bell ' style='color:rgb(0, 0, 0)'></i>
+            <span class="text">Alerts</span>
+        </a>
+    </li>
+    <li>
+        <a href="{%url 'homeapp:team' %}">
+            <i class='bx bxs-group' ></i>
+            <span class="text">Team</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block titleshit %}
+    Settings
+{% endblock %}
+
+{% block titleshit2 %}
+   Settings
+{% endblock %}
+
+{% block main %}
+{% endblock %}
+
+{% block sidebar %}
+    <li class = "active">
+        <a id="theme-toggle">
+            <i class='bx bxs-cog' ></i>
+            <span class="text">Dark Theme</span>
+        </a>
+    </li>
+{% endblock %}

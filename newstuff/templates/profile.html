@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    {% load bootstrap5 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - {{target.displayname}}</title>
+    <style>
+        body {
+            background-color: #b3e5fc;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            display: block;
+        }
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .container {
+            background-color: #ffffff18;
+        }
+        .card{
+            position: fixed;
+            width: 1000px;
+            height: 1000px;
+            border: none;
+            border-radius: 10px;
+            align-self: center;
+            background-color: #ffffff31;
+            display: flex;
+	        justify-content: center;
+            z-index: 2;
+        }
+
+        .card .p-3 {
+            background-color: #ffffff2d;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Ensure the canvas is behind other elements */
+        }
+
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .stats{
+
+            background: #f2f5f877 !important;
+
+            color: #000 !important;
+        }
+        .articles{
+        font-size:10px;
+        color: #a1aab9;
+        }
+        .number1{
+        font-weight:500;
+        }
+        .followers{
+            font-size:10px;
+        color: #a1aab9;
+
+        }
+        .number2{
+        font-weight:500;
+        }
+        .rating{
+            font-size:10px;
+        color: #a1aab9;
+        }
+        .number3{
+        font-weight:500;
+        }
+        .btn {
+            width: 250px;
+            margin: 0 5px;
+        }
+        .toast-container {
+            position: fixed;
+            bottom: -25%;
+            left: 50%;
+			transform: translate(135%, -25%);
+        }
+        .custom-img-size {
+            max-width: 50px; /* Adjust as needed */
+            max-height: 50px; /* Adjust as needed */
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    {% if target.userbg == "stars" %} 
+    <canvas id="bgCanvas"></canvas> 
+    {% elif target.userbg == "default" %}
+    <video id="bgCanvas" autoplay loop muted>
+        <source src="{% static 'videos/userbg/valorant.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    {% endif %}
+    {% if messages %}
+		{% for message in messages %}
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                  <div class="toast-header">
+                    <img src="{% static 'images/oopssmaller.png'%}" class="rounded me-2" alt="...">
+                    <strong class="me-auto">System</strong>
+                    <small>Now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                  </div>
+                  <div class="toast-body">
+                    {{message}}
+                  </div>
+                </div>
+              </div>
+		{% endfor %}
+    {% endif %}
+    <div class="container mt-5 d-flex justify-content-center">
+
+        <div class="card p-3" background-color= "#ffffff00">
+
+            <div class="d-flex align-items-center">
+
+                <div class="image">
+            <img src="{% static 'images/avatar/' %}{{target.username}}.png" class="rounded" width="155" >
+            </div>
+
+            <div class="ml-3 w-100">
+                
+               <h4 class="mb-0 mt-0">{{target.first_name}} {{target.last_name}} 
+                    <span class="badge text-bg-primary">{{ target.title }}</span> 
+                    {% if target.is_in_team %}
+                        <span class="badge text-bg-success">Drone Team</span> 
+                    {% endif %}
+                    {% if target.is_staff %}
+                        <span class="badge text-bg-danger">Staff</span> 
+                    {% endif %}
+               </h4>
+               <span>{{target.displayname}}</br></br></span>
+
+               <span>{{target.description}}</br></br></span>
+
+                
+               {% if user.is_authenticated %}
+               <div class="button mt-2 d-flex flex-row align-items-center">
+
+                
+                    {% if target.username == user.username %}<a href="{%url 'loginsapp:updateuser' %}"><button type="link" class="btn btn-primary">Edit Profile</button> </a>{% endif %}
+                    {% if user.is_staff %}
+                        {% if target.is_in_team and not target.username == "bloomingyellow" %}<a href="{%url 'homeapp:removeteam' targetuser=target.username %}"> <button type="link" class="btn btn-success">Remove from Team</button> </a>
+                        {% elif not target.username == "bloomingyellow" %}<a href="{%url 'homeapp:maketeam' targetuser=target.username %}"> <button type="link" class="btn btn-success">Join Team</button> </a>{% endif %}
+                        {% if target.is_staff and not target.username == "bloomingyellow" %} <a href="{%url 'homeapp:removestaff' targetuser=target.username %}"> <button type="link" class="btn btn-success">Remove Staff</button> </a>
+                        {% elif not target.username == "bloomingyellow" %} <a href="{%url 'homeapp:makestaff' targetuser=target.username %}"> <button type="link" class="btn btn-success">Make Staff</button> </a>{% endif %}
+                    {% endif %}
+               
+                   
+               </div>
+               {% endif %}
+
+
+            </div>
+
+                
+            </div>
+            
+        </div>
+         
+         
+    </div>
+     <!-- TOASTS -->
+	{% if messages %}
+        {% for message in messages %}
+            <div aria-live="polite" aria-atomic="true" class="position-relative">
+                <div class="toast-container bottom-0 start-0 p-3">
+                    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <img src="{% static 'images/oopssmaller.png'%}" class="mr-3 rounded custom-img-size" alt="...">
+                            <strong class="me-auto">System</strong>
+                            <small class="text-body-secondary">just now</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <!-- TOASTS -->
+    {% if target.userbg == "stars" %}
+    <script>
+        const vertexShaderSource = `
+            attribute vec4 a_position;
+            void main() {
+                gl_Position = a_position;
+            }
+        `;
+
+        const fragmentShaderSource = `
+            precision mediump float;
+            uniform float iTime;
+            uniform vec2 iResolution;
+            
+            #define STARDISTANCE 150.
+            #define STARBRIGHTNESS 0.5
+            #define STARDENSITY 0.05
+
+            float hash13(vec3 p3)
+            {
+                p3  = fract(p3 * vec3(.1031,.11369,.13787));
+                p3 += dot(p3, p3.yzx + 19.19);
+                return fract((p3.x + p3.y) * p3.z);
+            }
+
+            float stars(vec3 ray)
+            {
+                vec3 p = ray * STARDISTANCE;
+                float h = hash13(p);
+                float flicker = cos(iTime * 1. + hash13(abs(p) * 0.01) * 13.) * 0.5 + 0.5;
+                float brigtness = smoothstep(1.0 - STARDENSITY, 1.0, hash13(floor(p)));
+                return smoothstep(STARBRIGHTNESS, 0., length(fract(p) - 0.5)) * brigtness * flicker;
+            }
+
+            vec3 camera(vec2 fragCoord)
+            {
+                vec3 ray = normalize(vec3( fragCoord.xy-iResolution.xy*.5, iResolution.x));
+                vec2 angle = vec2(0, 10. + iTime * 0.025);
+                vec4 cs = vec4(cos(angle.x), sin(-angle.x), cos(angle.y), sin(angle.y));
+                ray.yz *= mat2(cs.xy,-cs.y,cs.x); 
+                ray.xz *= mat2(cs.zw,-cs.w,cs.z); 
+                return ray;
+            }
+
+            void mainImage( out vec4 fragColor, in vec2 fragCoord )
+            {
+                vec3 ray = camera(fragCoord);
+                float s = stars(ray);
+                fragColor = vec4(s, s ,s ,1.0);
+            }
+            
+            void main() {
+                vec2 fragCoord = gl_FragCoord.xy;
+                vec2 uv = (2.0 * fragCoord - iResolution.xy) / iResolution.y;
+
+                vec4 fragColor;
+                mainImage(fragColor, fragCoord);
+                
+                gl_FragColor = fragColor;
+            }
+        `;
+
+        const canvas = document.getElementById('bgCanvas');
+        const gl = canvas.getContext('webgl');
+        if (!gl) {
+            alert('WebGL not supported');
+        }
+
+        function createShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error('Error compiling shader:', gl.getShaderInfoLog(shader));
+                gl.deleteShader(shader);
+                return null;
+            }
+            return shader;
+        }
+
+        const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+        const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+        function createProgram(gl, vertexShader, fragmentShader) {
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                console.error('Error linking program:', gl.getProgramInfoLog(program));
+                gl.deleteProgram(program);
+                return null;
+            }
+            return program;
+        }
+
+        const program = createProgram(gl, vertexShader, fragmentShader);
+
+        const positionAttributeLocation = gl.getAttribLocation(program, 'a_position');
+        const resolutionUniformLocation = gl.getUniformLocation(program, 'iResolution');
+        const timeUniformLocation = gl.getUniformLocation(program, 'iTime');
+
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        const positions = [
+            -1, -1,
+            1, -1,
+            -1, 1,
+            1, 1,
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function render() {
+            gl.clearColor(0, 0, 0, 1);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            gl.useProgram(program);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.enableVertexAttribArray(positionAttributeLocation);
+            gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+            gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
+            gl.uniform1f(timeUniformLocation, performance.now() / 1000);
+
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+            requestAnimationFrame(render);
+        }
+
+        render();
+    </script>
+    {% endif %}
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl, { delay: 5000 });
+        });
+        toastList.forEach(toast => toast.show());
+    });
+</script>
+</html>

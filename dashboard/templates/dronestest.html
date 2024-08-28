@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block style %}
+    <style>
+        .cube-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .cube {
+            width: 200px;
+            height: 200px;
+            background-color: #18181d;
+            border: 1px solid #16172e;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #008f13;
+        }
+
+        .cube:hover {
+            background-color: #383861;
+            border: 1px solid #2b2e86;
+            color: #00d11c;
+        }
+
+        .cube.offline {
+            background-color: #18181d;
+            color: #b80000;
+        }
+
+        .cube.offline:hover {
+            background-color: #555581;
+            border: 1px solid #2f317c;
+            color: #ff0202;
+        }
+
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="cube-grid">
+        {% for i in "0123456789" %}
+            {% if forloop.first %}
+                <div class="cube"; onclick=window.location.href='/drones';>Drone {{ i|add:"1" }} (Online)</div>
+            {% else %}
+                <div class="cube offline">Drone {{ i|add:"1" }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block others %}
+{% endblock %}

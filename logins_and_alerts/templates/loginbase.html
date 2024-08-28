@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login Page</title>
+
+        {% block style %}
+        {% endblock %}
+
+        <style>
+            body {
+                background-image: url('/static/images/lbg.png'); /* Replace 'background.png' with the path to your PNG image */
+                font-family: Arial, sans-serif;
+                height: 85%;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+            
+            .login-box {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(255, 255, 255, 0.8);
+                padding: 40px;
+                border-radius: 30px;
+                text-align: left;
+                width: 500px;
+            }
+
+            .containera{
+                position: absolute;
+                top: 30%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(255, 255, 255, 0.8);
+                padding: 40px;
+                border-radius: 30px;
+                text-align: center;
+                width: 500px;
+            }
+            
+            .login-box h2 {
+                margin-bottom: 20px;
+            }
+            
+            .login-box input {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+            
+            .login-box button {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                background-color: #F9E467;
+                color: white;
+                cursor: pointer;
+            }
+            
+            .login-box button:hover {
+                background-color: #F9AE68;
+            }
+
+            .toast-container {
+                position: fixed;
+                bottom: 0;
+                left: 50%;
+                transform: translate(390%, 0%);
+                z-index: 1050;
+                padding: 1rem;
+            }
+
+        </style>                
+    </head>
+
+    <body>
+
+        <div class="containera">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {{message}}
+                  </div>
+                {% endfor %}
+            {% endif %}
+            </div>
+        <div class="login-box"> 
+            {% block loginbox %}
+            {% endblock %}      
+        </div>
+
+        <!-- TOASTS -->
+		{% if messages %}
+            {% for message in messages %}
+                <div aria-live="polite" aria-atomic="true" class="position-relative">
+                    <div class="toast-container bottom-0 start-0 p-3">
+                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                  </svg>
+                                <strong class="me-auto">System</strong>
+                                <small class="text-body-secondary">just now</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                {{ message }}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- TOASTS -->
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+                var toastList = toastElList.map(function (toastEl) {
+                    return new bootstrap.Toast(toastEl, { delay: 5000 });
+                });
+                toastList.forEach(toast => toast.show());
+            });
+        </script>
+    </body>
+</html>
