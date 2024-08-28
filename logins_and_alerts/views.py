@@ -88,3 +88,7 @@ def deletedrone(request, dronetarget):
     messages.success(request, ("Drone Deleted Succesful!"))
     return redirect('homeapp:drones')
     #return render(request, 'updatedrones.html' ,{"drone":drone, "form":form})
+
+#later to be deleted 
+def testhtml(request):
+    return render(request, 'testhtml.html')
