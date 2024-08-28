@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+	{% load bootstrap5 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript %}
+
+	{% block style %}
+	{% endblock %}
+
+	<style> 
+		.button {
+		border: none;
+		color: rgba(255, 255, 255, 0);
+		padding: 12px 30px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		transition-duration: 0.4s;
+		cursor: pointer;
+		}
+
+		.button1 {
+		background-color: white; 
+		color: black; 
+		border: 2px solid #04AA6D;
+		}
+
+		.button1:hover {
+		background-color: #04AA6D;
+		color: white;
+		}
+
+		.button2 {
+		background-color: rgba(255, 255, 255, 0); 
+		color: black; 
+		border: 2px solid #008CBA;
+		}
+
+		.button2:hover {
+		background-color: #008CBA;
+		color: white;
+		}
+
+		ul.side-menu.top {
+			margin: 0; /* or adjust as needed */
+			padding: 0; /* or adjust as needed */
+		}	
+		
+		ul.side-menu.bottom {
+			margin: 0; /* or adjust as needed */
+			padding: 0; /* or adjust as needed */
+		}
+
+		alert alert-success d-flex align-items-center {
+			width: 150px;
+			height: 50px;
+		}
+
+		profile-lo {
+			margin: 0px 5px;
+		}
+
+		/* Position toasts at the bottom left of the screen */
+        .toast-container {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+			transform: translate(393%, 0%);
+            z-index: 1050;
+            padding: 1rem;
+        }
+
+        .custom-img-size {
+            max-width: 50px; /* Adjust as needed */
+            max-height: 50px; /* Adjust as needed */
+        }
+
+		.btn-download {
+			padding: 5px 0px;
+		}
+	</style>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+	<link rel="stylesheet" href="{% static 'css/style.css'%}">
+
+
+	<title>Medicale Drone</title>
+</head>
+<body>
+
+
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="{%url 'homeapp:dashboard' %}" class="brand">
+			<span class="text">MediDrone</span>
+		</a>
+		<ul class="side-menu top">
+			{% block active %}
+
+			{% endblock %}
+		</ul>
+		<ul class="side-menu bottom">
+		{% block sidebar%}
+		{% endblock %}
+			{% if user.is_authenticated %}
+			<li>
+				<a href="{%url 'loginsapp:logoutuser' %}" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+				{% for cuser in user_list %}
+					{% if cuser.username == user.username and cuser.username == "bloomingyellow" and cuser.is_staff %}
+						<li>
+							<a href="{%url 'admin:index' %}">
+								<i class='bx bxs-dashboard bx-rotate-90' style='color:rgb(0, 0, 0), 255, 0;'></i>
+								<span class="text">Admin</span>
+							</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+
+		
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu' ></i>
+			<a href="#" class="nav-link">Categories</a>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+
+			<input type="checkbox" id="switch-mode" hidden>
+			<a href="{%url 'homeapp:alerts' %}" class="notification">
+				<i class='bx bxs-bell' ></i>
+				<span class="num">{{ unread_alerts }}</span>
+			</a>
+				
+				{% if user.is_authenticated %}
+					<a class="profile" href="{% url 'homeapp:profile' username=user.username %}"> 
+						<img src="{% static 'images/avatar/' %}{{ user.username }}.png" alt="Avatar" href="#">	
+					</a>				
+				{% else %}
+				<a class="profile" href= "{%url 'loginsapp:loginuser' %}"> 
+					<button type="link" class="btn btn-outline-primary">Log In</button>
+				</a>
+				<a class="profile" href= "{%url 'loginsapp:registeruser' %}"> 
+					<button type="link" class="btn btn-outline-secondary">Register</button>
+				</a>
+				{% endif %}
+		</nav>
+		<!-- NAVBAR -->
+
+		{% block popup %}
+		{% endblock %}
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<h1>{% block titleshit %} {% endblock %}</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="{%url 'homeapp:dashboard'%}">Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a href="{%url 'homeapp:drones'%}">{% block titleshit2 %} {% endblock %}</a>
+						</li>
+					</ul>
+				</div>
+				
+				
+				{% block addbutton %}
+				{% endblock %}
+				
+				<a href="{% static 'images/MediDrone.pdf' %}" class="btn-download">
+					<i class='bx bxs-cloud-download' ></i>
+					<span class="text">Download Manual</span>
+				</a>
+			</div>
+			{% block main %}
+			{% endblock %}
+			
+		</main>
+		<!-- MAIN -->
+		 
+		
+		
+
+		  <!-- TOASTS -->
+		{% if messages %}
+		    {% for message in messages %}
+				<div aria-live="polite" aria-atomic="true" class="position-relative">
+					<div class="toast-container bottom-0 start-0 p-3">
+						<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+							<div class="toast-header">
+								<img src="{% static 'images/oopssmaller.png'%}" class="mr-3 rounded custom-img-size" alt="...">
+								<strong class="me-auto">System</strong>
+								<small class="text-body-secondary">just now</small>
+								<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+							</div>
+							<div class="toast-body">
+								{{ message }}
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			{% endfor %}
+		{% endif %}
+        <!-- TOASTS -->
+
+
+	</section>
+	<!-- CONTENT -->
+
+	<script src="{% static 'js/script.js'%}"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+			var toastList = toastElList.map(function (toastEl) {
+				return new bootstrap.Toast(toastEl, { delay: 5000 });
+			});
+			toastList.forEach(toast => toast.show());
+		});
+	</script>
+
+	{% block js %}
+	{% endblock %}
+</body>
+</html>
