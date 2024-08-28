@@ -11,4 +11,5 @@ urlpatterns = [
     path("adddrone/", views.registerdrone, name="adddrone"),
     path("updatedrone/<str:dronetarget>", views.updatedrone, name="updatedrone"),
     path("deletedrone/<str:dronetarget>", views.deletedrone, name="deletedrone"),
+    path("test/", views.testhtml, name="testhtml"),
 ]
