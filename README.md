@@ -1,6 +1,6 @@
 
 
-![Logo](https://github.com/MTH35H4RK/AgriSky/blob/back-dev/newstuff/static/images/logosmaller.png?raw=true)
+![Logo](https://github.com/MTH35H4RK/AgriSky/blob/main/newstuff/static/images/logo%20agrisky.png?raw=true)
 
 
 # AgriSky - Platform
