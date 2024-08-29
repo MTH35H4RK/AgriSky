@@ -1,11 +1,11 @@
 
 
-![Logo](https://github.com/MTH35H4RK/MediDrone/blob/back-dev/newstuff/static/images/oops.png?raw=true)
+![Logo](https://github.com/MTH35H4RK/AgriSky/blob/back-dev/newstuff/static/images/logosmaller.png?raw=true)
 
 
-# MediDrone - Platform
+# AgriSky - Platform
 
-A platform which control and maintain advance medical drones.
+A platform which control and maintain advance drones.
 
 ## How to setup the site
 
@@ -54,9 +54,15 @@ To Login with an admin account use
 - Drone page is completed, with the ability to create, update, delete and stream each drone.
 - Team page is completed, each user with the team tag is displayed in the page.
 
+### 7/13/2024 by Bloom 🌸 && MTH35H4RK
+
+- Update the read.me.
+- Going Live! at www.argilive.com
+- The Changes in the repo is autoupdated to the website!
+- Register now to be added to the team Page
 
 ## To Do List
 
  - Alerts and Reports need to be fixed
  - Dark Theme
- - Change the background in login
+ - Change the background in login !!!!
