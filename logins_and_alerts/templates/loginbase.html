@@ -13,14 +13,11 @@
         {% endblock %}
 
         <style>
-            body {
-                background-image: url('/static/images/lbg.png'); /* Replace 'background.png' with the path to your PNG image */
+            body, html {
+                margin: 0;
+                overflow: hidden;
+                height: 100%;
                 font-family: Arial, sans-serif;
-                height: 85%;
-                -webkit-background-size: cover;
-                -moz-background-size: cover;
-                -o-background-size: cover;
-                background-size: cover;
             }
             
             .login-box {
@@ -83,10 +80,20 @@
                 padding: 1rem;
             }
 
+            canvas {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1; /* Ensure the canvas stays in the background */
+            }
         </style>                
     </head>
 
     <body>
+        <canvas id="glCanvas"></canvas>
 
         <div class="containera">
             {% if messages %}
@@ -137,6 +144,90 @@
                 });
                 toastList.forEach(toast => toast.show());
             });
+
+            const canvas = document.getElementById('glCanvas');
+            const gl = canvas.getContext('webgl');
+
+            // Set the canvas size to the window size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Compile the shader
+            const fragmentShaderSource = `
+            precision mediump float;
+
+            #define SIZE 20.0
+            #define BLACK_COL vec3(0.0, 173.0, 181.0)/255.0
+            #define WHITE_COL vec3(235.0, 241.0, 245.0)/255.0
+
+            uniform vec2 iResolution;
+            uniform float iTime;
+
+            float rand(vec2 co) { 
+                return fract(sin(dot(co.xy , vec2(12.9898, 78.233))) * 43758.5453);
+            } 
+
+            void mainImage( out vec4 fragColor, in vec2 fragCoord )
+            {       
+                vec2 uv = fragCoord.xy/iResolution.y;
+                float smf = 1.0/(iResolution.y) * SIZE * 2.0; // smooth factor
+                
+                vec2 ruv = uv*SIZE;    
+                vec2 id = ceil(ruv);       
+                    
+                ruv.y -= iTime * 2.0 * (rand(vec2(id.x)) * 0.5 + 0.5); // move up
+                ruv.y += ceil(mod(id.x, 2.0)) * 0.3 * iTime; // every 2nd column always move faster 
+                vec2 guv = fract(ruv) - 0.5; // centerize guv   
+                
+                ruv = ceil(ruv);    
+                float g = length(guv);
+                
+                float v = rand(ruv) * 0.5; // random bubble size     
+                v *= step(0.1, v); // remove too small bubbles
+                float m = smoothstep(v, v - smf, g);
+                v *= 0.8; // bubble inner empty space
+                m -= smoothstep(v, v - smf, g);
+                
+                vec3 col = mix(BLACK_COL, WHITE_COL, m); // final color
+                
+                fragColor = vec4(col, 1.0);
+            }
+
+            void main() {
+                mainImage(gl_FragColor, gl_FragCoord.xy);
+            }
+            `;
+            const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+            gl.shaderSource(fragmentShader, fragmentShaderSource);
+            gl.compileShader(fragmentShader);
+
+            // Check for errors
+            if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+                console.error('ERROR compiling fragment shader!', gl.getShaderInfoLog(fragmentShader));
+            }
+
+            // Create and link the program
+            const program = gl.createProgram();
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            gl.useProgram(program);
+
+            // Set resolution and time uniform
+            const resolutionLocation = gl.getUniformLocation(program, 'iResolution');
+            gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+
+            let startTime = Date.now();
+            function render() {
+                const currentTime = (Date.now() - startTime) * 0.001;
+                gl.uniform1f(gl.getUniformLocation(program, 'iTime'), currentTime);
+
+                // Draw the shader
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                requestAnimationFrame(render);
+            }
+
+            render();
         </script>
     </body>
 </html>
