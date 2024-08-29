@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost','agrisky.onrender.com','www.agrisky.ma']
 
+CSRF_TRUSTED_ORIGINS = [
+    'agrisky.onrender.com',
+    'www.agrisky.ma'
+]
 
 # Application definition
 
