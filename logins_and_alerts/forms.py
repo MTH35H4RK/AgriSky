@@ -5,7 +5,7 @@ import os
 
 def custom_upload_to(instance, filename):
 			extension = filename.split('.')[-1]
-			filename = '{0}.{1}'.format(instance.username, extension)
+			filename = '{0}.{1}'.format(instance, extension)
 			full_path = os.path.join('newstuff/static/images/avatar/', filename)
 			if os.path.exists(full_path):
 				os.remove(full_path)  
@@ -43,6 +43,23 @@ class CreateUserForm(ModelForm):
 		
 		avatar = forms.ImageField()
 		userbg = forms.ChoiceField(choices=USERBG_CHOICES)
+
+	def save(self, commit=True):
+		instance = super(CreateUserForm, self).save(commit=False)
+			
+		# Handle image upload
+		if self.cleaned_data.get('avatar'):
+			avatar = self.cleaned_data['avatar']
+				
+			# Use the custom upload function to determine the path
+			upload_path = custom_upload_to(instance.username, avatar.name)
+				
+			# Save the file to the custom path
+			instance.avatar.save(upload_path, avatar, save=False)
+			
+		if commit:
+			instance.save()
+		return instance
 
 class UpdateUserForm(ModelForm):
 	class Meta:

@@ -28,7 +28,7 @@ def logoutuser(request):
     return redirect('homeapp:dashboard')
 
 def registeruser(request):
-    form = CreateUserForm(request.POST or None)
+    form = CreateUserForm(request.POST or None, request.FILES)
     if form.is_valid():
         registered = form.save()
         User.objects.create_user(username=registered.username, password=registered.password, email = registered.email)

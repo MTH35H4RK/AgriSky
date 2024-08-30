@@ -5,6 +5,7 @@
 
 <head>
 	{% load bootstrap5 %}
+	{% load functions %}
 	{% bootstrap_css %}
 	{% bootstrap_javascript %}
 
@@ -84,6 +85,10 @@
 		.btn-download {
 			padding: 5px 0px;
 		}
+
+		.active {
+			color: var(--blue);
+		}
 	</style>
 
 	<meta charset="UTF-8">
@@ -94,16 +99,59 @@
 	<!-- My CSS -->
 	<link rel="stylesheet" href="{% static 'css/style.css'%}">
 
+	{% if user.is_authenticated %}
+		{% for cuser in user_list %}
+			{% if cuser.username == user.username and cuser.is_dark_theme %}
+					<style>
+						:root {
+							--poppins: 'Poppins', sans-serif;
+							--lato: 'Lato', sans-serif;
+
+							--light: #060606;
+							--blue: #3C91E6;
+							--light-blue: #002930;
+							--grey: #111111;
+							--dark-grey: #555555;
+							--dark: #cbd1c8;
+							--red: #DB504A;
+							--yellow: #FFCE26;
+							--light-yellow: #391700;
+							--orange: #FD7238;
+							--light-orange: #2c1400;
+						}
+						.toast-header {
+							background-color : #000000d9;
+							color: #828c93;
+						}
+						.toast-body {
+							background-color : #000000d9;
+							color: #828c93;
+						}
+					</style>
+					{% block darktheme %}
+					{% endblock %}
+			{% endif %}
+		{% endfor %}
+	{% endif %}
 
 	<title>Agrisky</title>
 </head>
 <body>
 
-
 	<!-- SIDEBAR -->
-	<section id="sidebar">
+	<section id="sidebar" method="GET">
 		<a href="{%url 'homeapp:dashboard' %}" class="brand">
-			<img class="text"; src = "{% static 'images/logosmol.png'%}"></i>
+			{% if user.is_authenticated %}
+				{% for cuser in user_list %}
+					{% if cuser.username == user.username and cuser.is_dark_theme %}
+						<img class="text"; src = "{% static 'images/logosmol.png'%}"></i>
+					{% elif cuser.username == user.username and  not cuser.is_dark_theme %}
+						<img class="text"; src = "{% static 'images/logosmolbutlight.png'%}"></i>
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				<img class="text"; src = "{% static 'images/logosmol.png'%}"></i>
+			{% endif %}
 			<span class="text">Agrisky</span>
 		</a>
 		<ul class="side-menu top">
@@ -115,6 +163,23 @@
 		{% block sidebar%}
 		{% endblock %}
 			{% if user.is_authenticated %}
+				{% for cuser in user_list %}
+					{% if cuser.username == user.username %}
+						<form action="{% toggle_and_save_theme cuser request %}" id="theme-form" method="POST">
+							{% csrf_token %}
+							<li>
+								<a id="theme-toggle" href="#" onclick="submitForm(event);">
+									<i class='bx bxs-cog'></i>
+									{% if cuser.is_dark_theme %}
+										<span class="text">Light Theme</span>
+									{% else %}
+										<span class="text">Dark Theme</span>
+									{% endif %}
+								</a>
+							</li>
+						</form>
+					{% endif %}
+				{% endfor %}
 			<li>
 				<a href="{%url 'loginsapp:logoutuser' %}" class="logout">
 					<i class='bx bxs-log-out-circle' ></i>
@@ -187,7 +252,7 @@
 						</li>
 						<li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a href="{%url 'homeapp:drones'%}">{% block titleshit2 %} {% endblock %}</a>
+							<a>{% block titleshit2 %} {% endblock %}</a>
 						</li>
 					</ul>
 				</div>
@@ -247,6 +312,31 @@
 			});
 			toastList.forEach(toast => toast.show());
 		});
+	</script>
+
+	<script>
+		function submitForm(event) {
+			event.preventDefault();
+
+			const form = document.getElementById('theme-form');
+			const formData = new FormData(form);
+
+			fetch(form.action, {
+				method: 'POST',
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}',
+				},
+				body: formData
+			})
+			.then(response => {
+				if (response.ok) {
+					window.location.href = window.location.pathname; 
+				} else {
+					console.error('Fuck, it failed again...');
+				}
+			})
+			.catch(error => console.error('Error:', error));
+		}
 	</script>
 
 	{% block js %}

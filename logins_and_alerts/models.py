@@ -13,7 +13,7 @@ def custom_upload_to(instance, filename):
 
 class CUser(models.Model):
     username = models.CharField(max_length=15,unique=True)
-    password = models.CharField(max_length=15,unique=True)
+    password = models.CharField(max_length=15)
     displayname = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -34,7 +34,7 @@ class CUser(models.Model):
 
     is_in_team = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-
+    is_dark_theme = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

@@ -2,6 +2,15 @@
 
 {% load static %}
 
+{% block darktheme %}
+    <style>
+        .card {
+            background: #000000; /* Adjust as needed */
+            color: #d6d7de; /* Adjust as needed */
+        }
+    </style>
+{% endblock %}
+
 {% block style %}
     <style>
         .custom-img-size {
@@ -20,7 +29,7 @@
     </li>
     <li>
         <a href="{%url 'homeapp:drones' %}">
-            <i class='bx bx-command bx-rotate-90' style='color:rgb(0, 0, 0)'></i>
+            <i class='bx bx-command bx-rotate-90'></i>
             <span class="text">Drones</span>
         </a>
     </li>
@@ -32,7 +41,7 @@
     </li>
     <li>
         <a href="{%url 'homeapp:alerts' %}">
-            <i class='bx bx-bell ' style='color:rgb(0, 0, 0)'></i>
+            <i class='bx bx-bell '></i>
             <span class="text">Alerts</span>
         </a>
     </li>
@@ -80,10 +89,5 @@
 {% endblock %}
 
 {% block sidebar %}
-    <li>
-        <a id="theme-toggle" href="">
-            <i class='bx bxs-cog' ></i>
-            <span class="text">Dark Theme</span>
-        </a>
-    </li>
+    
 {% endblock %}
