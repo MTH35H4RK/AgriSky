@@ -70,6 +70,22 @@
     .darkthemed {
         background: #000411;
     }
+    .modal-content {
+        color: #b7bdc9;
+        background: #000000;
+    }
+    .modal-header {
+        border-bottom: 1px solid #3d3d3d;
+    }
+    .modal-body {
+        border-bottom: 1px solid #3d3d3d;
+    }
+    .modal-footer {
+        border-top: 1px solid #3d3d3d;
+    }
+    .btn-close modal-close {
+        color: #FFFFFF;
+    }
 </style>
 {% endblock %}
 
@@ -115,7 +131,17 @@
                     <div class="modal-content custom-modal-dialog">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">{{drone.dronename}} - Stream</h5>
-                            <button type="button" class="btn-close modal-close" aria-label="Close"></button>
+                            {% if user.is_authenticated %}
+                                {% for cuser in user_list %}
+                                    {% if cuser.username == user.username and cuser.is_dark_theme %}
+                                        <button type="button" class="btn-close modal-close btn-close-white" aria-label="Close"></button>
+                                    {% elif cuser.username == user.username and not cuser.is_dark_theme %}
+                                        <button type="button" class="btn-close modal-close btn-close" aria-label="Close"></button>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <button type="button" class="btn-close modal-close btn-close" aria-label="Close"></button>
+                            {% endif %}
                         </div>
                         <div class="modal-body">
                             <!-- Container for image and maps -->
