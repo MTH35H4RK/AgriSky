@@ -145,12 +145,12 @@
 				{% for cuser in user_list %}
 					{% if cuser.username == user.username and cuser.is_dark_theme %}
 						<img class="text"; src = "{% static 'images/logosmol.png'%}"></i>
-					{% elif cuser.username == user.username and  not cuser.is_dark_theme %}
+					{% elif cuser.username == user.username and not cuser.is_dark_theme %}
 						<img class="text"; src = "{% static 'images/logosmolbutlight.png'%}"></i>
 					{% endif %}
 				{% endfor %}
 			{% else %}
-				<img class="text"; src = "{% static 'images/logosmol.png'%}"></i>
+				<img class="text"; src = "{% static 'images/logosmolbutlight.png'%}"></i>
 			{% endif %}
 			<span class="text">Agrisky</span>
 		</a>
