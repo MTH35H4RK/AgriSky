@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth.decorators import login_required
-from logins_and_alerts.models import Drone, CUser, Alert
+from logins_and_alerts.models import Drone, CUser, Alert, Report
 from django.contrib import messages
 from django.contrib.auth.models import User
+from time import gmtime, strftime
 
 user_list = CUser.objects.all()  
 drone_list = Drone.objects.all()
@@ -18,9 +19,13 @@ def reloadlists():
     global user_list
     global drone_list
     global alerts_list
+    global reports_list
+    presortedalerts = Alert.objects.all()
+    presortedreports = Report.objects.all()
     user_list = CUser.objects.all()  
     drone_list = Drone.objects.all()
-    alerts_list = Alert.objects.all()
+    alerts_list = presortedalerts.order_by('timeofalert')
+    reports_list = presortedreports.order_by('timeofreport')
 
 def getdrones():
     reloadlists()
@@ -54,8 +59,8 @@ def dashboard(request):
     getdrones()
     getunreadalerts()
     # User_instance = User.objects.create(user=current_user)
-    return render(request, 'home.html', {'drone_active': drone_active, 'drone_not_active': drone_not_active, 'drone_list': drone_list, 'unread_alerts': unread_alerts, 'user_list': user_list, 'request': request})
-
+    return render(request, 'home.html', {'drone_active': drone_active, 'drone_not_active': drone_not_active, 'drone_list': drone_list, 'unread_alerts': unread_alerts, 'user_list': user_list, 'request': request, 'currenttime':strftime("%b. %d, %Y", gmtime()), 'reports_list': reports_list})
+ 
 def template(request):
     getunreadalerts()
     return render(request, "empty.html", {'unread_alerts': unread_alerts, 'user_list': user_list, 'request': request})
@@ -69,11 +74,11 @@ def drones(request):
 
 def alerts(request): 
     getunreadalerts()
-    return render(request, "alerts.html", {'unread_alerts': unread_alerts, 'user_list': user_list, 'request': request})
+    return render(request, "alerts.html", {'unread_alerts': unread_alerts, 'user_list': user_list, 'request': request, 'alerts_list': alerts_list})
 
 def reports(request): 
     getunreadalerts()
-    return render(request, "reports.html", {'unread_alerts': unread_alerts, 'user_list': user_list, 'request': request})
+    return render(request, "reports.html", {'unread_alerts': unread_alerts, 'user_list': user_list, 'request': request, 'reports_list': reports_list})
 
 def team(request): 
     getunreadalerts()

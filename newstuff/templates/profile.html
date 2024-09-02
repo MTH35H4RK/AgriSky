@@ -129,10 +129,10 @@
     {% endif %}
     {% if messages %}
 		{% for message in messages %}
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div class="toast-container position-fixed bottom-0 end-0 p-3 timetohide">
                 <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                   <div class="toast-header">
-                    <img src="{% static 'images/oopssmaller.png'%}" class="rounded me-2" alt="...">
+                    <img src="{% static 'images/logosmol.png'%}" class="rounded me-2" alt="...">
                     <strong class="me-auto">System</strong>
                     <small>Now</small>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -362,7 +362,7 @@
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastElList = [].slice.call(document.querySelectorAll('.timetohide'))
         var toastList = toastElList.map(function (toastEl) {
             return new bootstrap.Toast(toastEl, { delay: 5000 });
         });

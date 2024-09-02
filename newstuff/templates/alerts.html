@@ -2,6 +2,226 @@
 
 {% load static %}
 
+{% block style %}
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .background-container {
+            background-size: cover;
+            background-position: center center;
+            height: 650px;
+            width: 1100px;
+            margin: 50px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .transparent-card {
+            width: 990px;
+            height: 680px;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            padding-top: 20px;
+            background: #ffffff00;
+            color: #ffffff00;
+            border-color: #ffffff00;
+        }
+
+        .accordion-body{
+            background: #ffffff;
+            border-color: #ffffff00;
+            color:#000000;
+        }
+
+        .accordion-button:not(.collapsed) {
+            color: #000000;
+            background-color: #ffffff;
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125);
+        }    
+
+        .wrapper {
+            width: 820px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .toast {
+            width: 100%;
+            height: 80px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 7px;
+            display: grid;
+            grid-template-columns: 1.3fr 6fr 0.5fr;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .toast:not(:last-child) {
+            margin-bottom: 20px;
+        }
+
+        .outer-container, .inner-container {
+            align-self: center;
+        }
+
+        .outer-container i {
+            font-size: 24px; /* Adjusted font size for icons */
+        }
+
+        .inner-container p:first-child {
+            color: #101020;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .inner-container p:last-child {
+            font-size: 14px;
+            font-weight: 400;
+            color: #656565;
+        }
+
+        .toast button {
+            align-self: flex-start;
+            background-color: transparent;
+            font-size: 20px;
+            color: #656565;
+            line-height: 0;
+            cursor: pointer;
+            padding: 10px;
+            margin-right: -10px;
+        }
+
+        .success {
+            border-left: 5px solid #47D764;
+        }
+
+        .error {
+            border-left: 5px solid #ff355b;
+        }
+
+        .info {
+            border-left: 5px solid #2F86EB;
+        }
+
+        .warning {
+            border-left: 5px solid #FFC021;
+        }
+
+        .success i {
+            color: #47D764;
+        }
+
+        .error i {
+            color: #ff355b;
+        }
+
+        .info i {
+            color: #2F86EB;
+        }
+
+        .warning i {
+            color: #FFC021;
+        }
+
+        .customtop {
+            top: 12.5%;
+            left: 99.3%;
+        }
+    </style>
+{% endblock %}
+
+{% block darktheme %}
+    <style>
+        .transparent-card {
+            width: 990px;
+            height: 680px;
+            background: #000000b3;
+            box-shadow: 0 4px 8px #FFFFFF1a;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            padding-top: 20px;
+            background: #ffffff00;
+            color: #ffffff00;
+            border-color: #ffffff00;
+        }
+
+        .accordion-body{
+            background: #000000;
+            border-color: #00000000;
+            color:#FFFFFF;
+        }
+
+        .accordion-button:not(.collapsed) {
+            color: #FFFFFF;
+            background-color: #000000;
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125);
+        }    
+
+        .toast {
+            width: 100%;
+            height: 80px;
+            padding: 20px;
+            background-color: #000000;
+            border-radius: 7px;
+            display: grid;
+            grid-template-columns: 1.3fr 6fr 0.5fr;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .inner-container p:first-child {
+            color: #e0dfef;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .inner-container p:last-child {
+            font-size: 14px;
+            font-weight: 400;
+            color: #9a9a9a;
+        }
+
+        .toast button {
+            align-self: flex-start;
+            background-color: transparent;
+            font-size: 20px;
+            color: #9a9a9a;
+            line-height: 0;
+            cursor: pointer;
+            padding: 10px;
+            margin-right: -10px;
+        }
+    </style>
+{% endblock %}
+
 {% block active %}
     <li>
         <a href="{%url 'homeapp:dashboard' %}">
@@ -11,7 +231,7 @@
     </li>
     <li>
         <a href="{%url 'homeapp:drones' %}">
-            <i class='bx bx-command bx-rotate-90' ></i>
+            <i class='bx bx-command bx-rotate-90'></i>
             <span class="text">Drones</span>
         </a>
     </li>
@@ -23,7 +243,7 @@
     </li>
     <li class="active">
         <a href="{%url 'homeapp:alerts' %}">
-            <i class='bx bx-bell' ></i>
+            <i class='bx bx-bell '></i>
             <span class="text">Alerts</span>
         </a>
     </li>
@@ -40,10 +260,39 @@
 {% endblock %}
 
 {% block titleshit2 %}
-   Alerts
+    Alerts
 {% endblock %}
 
 {% block main %}
+    <div class="wrapper">
+        {% for alert in alerts_list %}
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="toast success d-flex align-items-center accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{alert.id}}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{alert.id}}">
+                                <div class="outer-container">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="inner-container ms-3">
+                                    <p class="mb-0">{{alert.alertname}}</p>
+                                    <p class="mb-0">Drone : {{alert.dronetarget}}</p>
+                                </div>
+                            </button>
+                        </h2>
+                    <div id="panelsStayOpen-collapse{{alert.id}}" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            {{alert.alertdescription}}
+                        </div>
+                    </div>
+                </div>  
+                {% if alert.unread_alerts == True %}
+                        <span class="position-absolute translate-middle p-2 bg-danger border border-light rounded-circle customtop">
+                            <span class="visually-hidden">New alerts</span>
+                        </span>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>    
 {% endblock %}
 
 {% block sidebar %}
