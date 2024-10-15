@@ -12,6 +12,7 @@
 	{% block style %}
 	{% endblock %}
 
+	{% isuserloggedin request "dashboard" %}
 	<style> 
 		.button {
 		border: none;
@@ -98,6 +99,7 @@
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- My CSS -->
 	<link rel="stylesheet" href="{% static 'css/style.css'%}">
+	
 
 	{% if user.is_authenticated %}
 		{% for cuser in user_list %}
@@ -339,6 +341,7 @@
 		}
 	</script>
 
+	<script src="{% static 'js/redirectfix.js'%}"> </script>
 	{% block js %}
 	{% endblock %}
 </body>

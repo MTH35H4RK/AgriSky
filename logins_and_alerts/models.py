@@ -66,7 +66,16 @@ class Alert(models.Model):
         default=datetime(2024, 9, 1, 12, 0, 0))
     alertdescription = models.TextField('Description',default='')
     is_read = models.BooleanField(default=False)
-
+    TYPES = [
+        ('default', 'default'),
+        ('alert', 'alert'),
+        ('warning', 'warning'),
+        ('info', 'info'),
+    ]
+    type = models.CharField(blank=True,
+                              max_length=10,
+                              choices=TYPES,
+                              default="default")
     #colors to be done later.... - Bloom
 
     def __str__(self):

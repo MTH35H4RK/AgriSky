@@ -191,6 +191,8 @@
             height: 80px;
             padding: 20px;
             background-color: #000000;
+     
+     
             border-radius: 7px;
             display: grid;
             grid-template-columns: 1.3fr 6fr 0.5fr;
@@ -266,18 +268,50 @@
 {% block main %}
     <div class="wrapper">
         {% for alert in alerts_list %}
-            <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                         <h2 class="accordion-header">
-                            <button class="toast success d-flex align-items-center accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{alert.id}}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{alert.id}}">
-                                <div class="outer-container">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <div class="inner-container ms-3">
-                                    <p class="mb-0">{{alert.alertname}}</p>
-                                    <p class="mb-0">Drone : {{alert.dronetarget}}</p>
-                                </div>
-                            </button>
+                            {% if alert.type == "default" %}
+                                <button class="toast success d-flex align-items-center accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{alert.id}}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{alert.id}}">
+                                    <div class="outer-container">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="inner-container ms-3">
+                                        <p class="mb-0">{{alert.alertname}}</p>
+                                        <p class="mb-0">Drone : {{alert.dronetarget}}</p>
+                                    </div>
+                                </button>
+                            {% elif alert.type == "info" %}
+                                <button class="toast info d-flex align-items-center accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{alert.id}}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{alert.id}}">
+                                    <div class="outer-container">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="inner-container ms-3">
+                                        <p class="mb-0">{{alert.alertname}}</p>
+                                        <p class="mb-0">Drone : {{alert.dronetarget}}</p>
+                                    </div>
+                                </button>
+                            {% elif alert.type == "warning" %}
+                                <button class="toast warning d-flex align-items-center accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{alert.id}}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{alert.id}}">
+                                    <div class="outer-container">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="inner-container ms-3">
+                                        <p class="mb-0">{{alert.alertname}}</p>
+                                        <p class="mb-0">Drone : {{alert.dronetarget}}</p>
+                                    </div>
+                                </button>
+                            {% elif alert.type == "alert" %}
+                                <button class="toast error d-flex align-items-center accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{alert.id}}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{alert.id}}">
+                                    <div class="outer-container">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="inner-container ms-3">
+                                        <p class="mb-0">{{alert.alertname}}</p>
+                                        <p class="mb-0">Drone : {{alert.dronetarget}}</p>
+                                    </div>
+                                </button>
+                            {% endif %}
                         </h2>
                     <div id="panelsStayOpen-collapse{{alert.id}}" class="accordion-collapse collapse">
                         <div class="accordion-body">

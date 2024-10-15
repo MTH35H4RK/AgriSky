@@ -47,14 +47,21 @@ To Login with an admin account use
 
 ## Updates
 
-### 7/13/2024 by Bloom 🌸
+### 15/10/2024 by Bloom 🌸
+
+- New page! Welcome page which gives a brief description to the project and prompt to log the use in (to test use the admin account).
+- Dark theme fixed fully.
+- Alerts page is fixed.
+PS: if there is any remarks feel free to tell me to change or improve.
+
+### 13/7/2024 by Bloom 🌸
 
 - Update the read.me.
 - User Manager is completed, now Users can be created, be in the team or manage the site.
 - Drone page is completed, with the ability to create, update, delete and stream each drone.
 - Team page is completed, each user with the team tag is displayed in the page.
 
-### 7/13/2024 by Bloom 🌸 && MTH35H4RK
+### 13/7/2024 by Bloom 🌸 && MTH35H4RK
 
 - Update the read.me.
 - Going Live! at www.argilive.com
@@ -63,6 +70,6 @@ To Login with an admin account use
 
 ## To Do List
 
- - Alerts and Reports need to be fixed
- - Dark Theme
+ - Reports need to be fixed
  - Change the background in login !!!!
+ - Adding the team to the site

@@ -22,7 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('newstuff.urls', namespace='homeapp')),
-    path('login/', include('django.contrib.auth.urls')),
-    path('login/', include('logins_and_alerts.urls', namespace='loginsapp')),
+    path('', include('welcomeapp.urls', namespace='welcomeapp')),
+    #path('login/', include('django.contrib.auth.urls')),
+    path('', include('logins_and_alerts.urls', namespace='loginsapp')),
     path('api-auth/', include('rest_framework.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
