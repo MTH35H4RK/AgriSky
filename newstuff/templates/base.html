@@ -221,10 +221,11 @@
 			</form>
 
 			<input type="checkbox" id="switch-mode" hidden>
-			<a href="{%url 'homeapp:alerts' %}" class="notification">
+			<a href="{%url 'homeapp:alerts' %}" class="notification" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">
 				<i class='bx bxs-bell' ></i>
 				<span class="num">{{ unread_alerts }}</span>
 			</a>
+			
 				
 				{% if user.is_authenticated %}
 					<a class="profile" href="{% url 'homeapp:profile' username=user.username %}"> 
@@ -342,6 +343,22 @@
 	</script>
 
 	<script src="{% static 'js/redirectfix.js'%}"> </script>
+	<script> 
+		$(function() {
+			$("[data-toggle=popover]").popover({
+			html: true,
+			placement:"bottom",
+			content: function() {
+				var content = $(this).attr("data-popover-content");
+				return $(content).children(".popover-body").html();
+			},
+			title: function() {
+				var title = $(this).attr("data-popover-content");
+				return $(title).children(".popover-heading").html();
+			}
+			});
+		});
+	</script>
 	{% block js %}
 	{% endblock %}
 </body>

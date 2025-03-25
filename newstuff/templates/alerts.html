@@ -59,11 +59,9 @@
         }    
 
         .wrapper {
-            width: 820px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            width: 50%;
+            margin-left: 25%;
+            margin-top: 10%;
         }
 
         .toast {
@@ -154,21 +152,11 @@
 {% block darktheme %}
     <style>
         .transparent-card {
-            width: 990px;
-            height: 680px;
             background: #000000b3;
             box-shadow: 0 4px 8px #FFFFFF1a;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
         }
 
         .accordion-item {
-            padding-top: 20px;
             background: #ffffff00;
             color: #ffffff00;
             border-color: #ffffff00;
@@ -187,39 +175,21 @@
         }    
 
         .toast {
-            width: 100%;
-            height: 80px;
-            padding: 20px;
             background-color: #000000;
-     
-     
-            border-radius: 7px;
-            display: grid;
-            grid-template-columns: 1.3fr 6fr 0.5fr;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
         }
 
         .inner-container p:first-child {
             color: #e0dfef;
-            font-weight: 600;
-            font-size: 20px;
         }
 
         .inner-container p:last-child {
-            font-size: 14px;
-            font-weight: 400;
             color: #9a9a9a;
         }
 
         .toast button {
-            align-self: flex-start;
             background-color: transparent;
-            font-size: 20px;
             color: #9a9a9a;
-            line-height: 0;
-            cursor: pointer;
-            padding: 10px;
-            margin-right: -10px;
         }
     </style>
 {% endblock %}

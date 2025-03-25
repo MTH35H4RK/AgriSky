@@ -6,6 +6,20 @@ from logins_and_alerts.models import Drone, CUser, Alert, Report
 from django.contrib import messages
 from django.contrib.auth.models import User
 from time import gmtime, strftime
+import os
+from django.conf import settings
+from pathlib import Path
+
+def isthereavatar(image_name):
+    static_path = os.path.join(Path(__file__).resolve().parent.parent, "static", "images", "avatar")
+    image_path = os.path.join(static_path, image_name)
+
+    if os.path.exists(image_path):
+        print("Image exists in static/images/avatar/")
+        return True
+    else:
+        print("Image does not exist.")
+        return False
 
 user_list = CUser.objects.all()  
 drone_list = Drone.objects.all()
@@ -94,7 +108,11 @@ def profile(request,username):
     for user in user_list:
         if username == user.username:
             target = user
-    return render(request, "profile.html", {'user_list': user_list, 'target': target})        
+    if isthereavatar(target.username + ".png"):
+        pngavatar = target.username + ".png"
+    else:    
+        pngavatar = "default.png"
+    return render(request, "profile.html", {'user_list': user_list, 'target': target, 'pngavatar': pngavatar, 'request': request})        
 
 
 def maketeam(request, targetuser):
